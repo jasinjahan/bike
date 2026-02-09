@@ -1,0 +1,5 @@
+.bike-card .card-img-top{
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+}

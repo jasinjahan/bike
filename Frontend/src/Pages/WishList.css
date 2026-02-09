@@ -1,0 +1,10 @@
+.image-photosize1{
+    width: 50px;
+}
+.icon-align{
+    vertical-align: middle;
+    text-align: center;
+}
+.icon-align :hover{
+    cursor: pointer;
+}

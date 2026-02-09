@@ -1,0 +1,14 @@
+.navbar-color{
+    background-color: rgb(209, 0, 0);
+   
+}
+.navbar-color a{
+color: rgb(244, 238, 238);
+   
+}
+.header-bg{
+   background-color: rgb(144, 111, 55);
+   
+}
+.header-bg .nav-link{
+    color: rgb(248, 236, 236);}
