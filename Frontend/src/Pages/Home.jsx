@@ -37,14 +37,14 @@ function Home() {
                         <Col md={6} lg={4} xl={3} key={index} className="mt-4 ">
                             <Card className="bike-card">
                                 <Link to={`/bike/${bike.id}`}>
-                                    <Card.Img variant="top  " src={bike?.photo ?? null} />
+                                    <Card.Img variant="top  " src={bike?.bikePhoto ?? null} />
                                 </Link>
                                 <Card.Body>
                                     <Card.Title>
-                                        {bike?.bikename ?? ""}
+                                        {bike?.bikeName ?? ""}
                                     </Card.Title>
                                     <Card.Text>
-                                        {bike?.description ?? ""}
+                                        {bike?.bikeDescription ?? ""}
                                     </Card.Text>
                                     <Button onClick={() => handleAddToWish(bike)} variant="primary">Add to wish</Button>
                                 </Card.Body>

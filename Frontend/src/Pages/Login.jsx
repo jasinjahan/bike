@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { userLogin } from "../../redux/userSlice";
-import { toast } from "react-toastify";
+import instance from "../../axios/instance";
+
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isAuthenticated, users } = useSelector(
+  const { isAuthenticated } = useSelector(
     (state) => state.userState
   );
 
@@ -35,38 +37,31 @@ const Login = () => {
     }
   };
 
-  const handleLoginSubmit = (event) => {
+  const handleLoginSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
-    setValidated(true);
-
     if (!form.checkValidity()) {
+      event.stopPropagation();
+
       const newErrors = {};
       form.querySelectorAll(":invalid").forEach((input) => {
         newErrors[input.name] = input.validationMessage;
       });
+
       setErrors(newErrors);
+      setValidated(true);
       return;
     }
 
-    const user = users.find(
-      (u) => u.email === userLoginData.email
-    );
-
-    if (!user) {
-      toast.error("User not found");
-      return;
+    try {
+      const { data } = await instance.post("/user/login", userLoginData);
+      dispatch(userLogin(data?.user));
+      toast.success(data?.message);
+      navigate("/");
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
     }
-
-    if (user.password !== userLoginData.password) {
-      toast.error("Invalid credentials");
-      return;
-    }
-
-    dispatch(userLogin(user));
-    toast.success("User logged in successfully");
-    navigate("/");
   };
 
   if (isAuthenticated) {
@@ -87,6 +82,7 @@ const Login = () => {
                 name="email"
                 type="email"
                 placeholder="Enter email"
+                value={userLoginData.email}
                 onChange={handleChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -101,6 +97,7 @@ const Login = () => {
                 name="password"
                 type="password"
                 placeholder="Enter password"
+                value={userLoginData.password}
                 onChange={handleChange}
               />
               <Form.Control.Feedback type="invalid">
@@ -124,3 +121,4 @@ const Login = () => {
 };
 
 export default Login;
+

@@ -1,7 +1,6 @@
 const User = require("../models/userModels");
-
-const bcrypt = require("bcrypt");
 const { generateToken } = require("../utils/token");
+const bcrypt = require("bcrypt");
 
 exports.userRegister = async (req, res) => {
 
@@ -42,7 +41,7 @@ exports.userRegister = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     try {
         const { fullName, email } = req.body;
-        const userId = "697c3dddb2fd1cfa3420f9f0";
+        const userId = req?.userId;
 
         if (!userId) {
             return res.status(400).json({
@@ -118,6 +117,7 @@ exports.userLogin = async (req, res) => {
         res.status(200).cookie('token',token).json({
             message:"User logged successfully ",
             success: true,
+            user
 
         });
 
